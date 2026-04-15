@@ -9,10 +9,38 @@ class Solution
   public:
     vector<vector<int>> threeSum(vector<int>& nums)
     {
-        // TODO: 你来填这里
-        // 暴力 O(n³) 会超时
-        // 提示：先排序，固定一个数，剩下两个用双指针找
-        // 难点：去重！排序后跳过相同的元素
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> res;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (i && nums[i] == nums[i - 1])
+            {
+                continue;
+            }
+            int j = i + 1;
+            int k = nums.size() - 1;
+            while (j < k)
+            {
+                int sumup = nums[i] + nums[j] + nums[k];
+                if (sumup > 0)
+                {
+                    k--;
+                }
+                else if (sumup < 0)
+                {
+                    j++;
+                }
+                else
+                {
+                    res.push_back({ nums[i], nums[j], nums[k] });
+                    for (j++; j < k && nums[j] == nums[j - 1]; j++)
+                        ;
+                    for (k--; j < k && nums[k] == nums[k + 1]; k--)
+                        ;
+                }
+            }
+        }
+        return res;
     }
 };
 
